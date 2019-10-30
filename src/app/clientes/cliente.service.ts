@@ -14,11 +14,24 @@ export class ClienteService {
 
   getClientes(): Observable<Cliente[]>{
 
-    //return of(CLIENTES);
+    
     return this.http.get<Cliente[]>(this.ulrEndPoint);
   }
 
   create(cliente: Cliente): Observable<Cliente> {
     return this.http.post<Cliente>(this.ulrEndPoint,cliente,{headers: this.httpHeaders});
+  }
+
+  getCliente(id): Observable <Cliente>{
+    return this.http.get<Cliente>(`${this.ulrEndPoint}/${id}`);
+  }
+
+  updateCliente(cliente: Cliente): Observable<Cliente>{
+    return this.http.put<Cliente>(`${this.ulrEndPoint}/${cliente.id}`, cliente, {headers: this.httpHeaders});
+  }
+
+  deleteCliente(id: number): Observable<Cliente>{
+
+    return this.http.delete<Cliente>(`${this.ulrEndPoint}/${id}`, {headers: this.httpHeaders});
   }
 }
