@@ -1,4 +1,4 @@
-<div class="card border-success mb-3">
+<div class="card border-success mb-3 my-4">
     <div class="card-header">Listado de Clientes</div>
     <div class="card-body text-success">
         <h5 class="card-title">Clientes</h5>
@@ -6,7 +6,10 @@
         <div class="my-2 text-left">
             <button class="btn btn-rounded btn-success" type="button" [routerLink] = "['/clientes/form']">Crear Cliente</button>
         </div>
-        <table class="table table-bordered table-striped">
+        <div class="alert alert-success" *ngIf="clientes?.length == 0">
+            No hay registros en la base de datos!
+        </div>
+        <table class="table table-bordered table-striped" *ngIf="clientes?.length > 0">
             <thead>
                 <tr>
                     <th>Id</th>
