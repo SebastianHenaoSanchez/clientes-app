@@ -19,16 +19,33 @@ export class ClienteService {
 
   getClientes(): Observable<Cliente[]>{
 
-    
     return this.http.get(this.ulrEndPoint).pipe(
       map( response => {
         let clientes = response as Cliente[];
         return clientes.map( cliente => {
-          cliente.nombre = cliente.nombre.toLocaleUpperCase();
+          
           cliente.createAt = formatDate(cliente.createAt, 'EEEE, dd MMMM yyyy', 'es');
           return cliente;
         })
       })
+    );
+  }
+
+  getClientesPage(page: number): Observable<any>{
+
+    return this.http.get(this.ulrEndPoint + '/page/' + page).pipe(
+      map( (response: any) => {
+        console.log('respuesta del back',response);
+        //let clientes = response.content as Cliente[];
+        //console.log('respuesta del back1',clientes);
+        //return (response.content).map( cliente => {
+          
+          //cliente.createAt = formatDate(cliente.createAt, 'EEEE, dd MMMM yyyy', 'es');
+          return response;
+        //} 
+        //);
+        
+      } )
     );
   }
 

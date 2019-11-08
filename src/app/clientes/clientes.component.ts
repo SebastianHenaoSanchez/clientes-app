@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { formatDate } from '@angular/common'; 
 import { Cliente } from './cliente';
 import { ClienteService } from './cliente.service';
 import swal from 'sweetalert2';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-clientes',
@@ -10,13 +12,31 @@ import swal from 'sweetalert2';
 export class ClientesComponent implements OnInit {
 
   clientes: Cliente[];
+  paginador: any;
   
-  constructor(private clienteService: ClienteService) { }
+  constructor(private clienteService: ClienteService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    this.clienteService.getClientes().subscribe(
-      clientes => this.clientes = clientes
-    );
+    //llamamos el metodo listar cuando se navega hacía este componente
+    this.activatedRoute.paramMap.subscribe(params => {
+      let page = +params.get('page');
+      if (!page) {
+        page = 0;
+        console.log('no hay paginas en el parametro');
+      }
+      this.clienteService.getClientesPage(page).subscribe(
+        response => {
+          
+          let clientes = response.content as Cliente[];
+          clientes.forEach(cliente => {
+            cliente.createAt = formatDate(cliente.createAt, 'EEEE, dd MMMM yyyy', 'es');
+          });
+          console.log('Clientes:', clientes);
+          this.clientes = clientes;
+          this.paginador = response;
+        });
+    });
+
   }
 
   delete(cliente: Cliente): void{

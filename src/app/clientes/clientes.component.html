@@ -1,6 +1,6 @@
 <div class="card border-success mb-3 my-4">
     <div class="card-header">Listado de Clientes</div>
-    <div class="card-body text-success">
+    <div class="card-body text-success table-responsive">
         <h5 class="card-title">Clientes</h5>
 
         <div class="my-2 text-left">
@@ -31,6 +31,7 @@
                 </tr> 
             </tbody>
         </table>
+        <paginator-nav *ngIf="paginador" [paginador] = "paginador"></paginator-nav>
 
     </div>
 </div>
